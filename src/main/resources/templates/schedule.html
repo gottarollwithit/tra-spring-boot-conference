@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Schedule</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" href="webjars/bootstrap/4.1.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <p>You can go back to homepage from <a href="/">here</a></p>
+    <p>You can add a new talk from <a href="/talk">here</a></p>
+    <p>You can create a new Schedule from <a href="/schedule">here</a></p>
+    <h2>Schedule</h2>
+    <table th:each="trackNo : ${eventMap.keySet()}">
+        <th:block th:text="${'Track ' + trackNo}"/>
+        <tr th:each="event : ${eventMap.get(trackNo)}">
+            <td th:text="${event.startTime + ' - ' +event.endTime}"/>
+            <td th:text="${event.name}"/>
+            <td th:text="${event.duration + ' min'}"/>
+        </tr>
+    </table>
+
+    <th:block th:if="${not #lists.isEmpty(unusedTalks)}">
+        <h2>Unused Talks</h2>
+        <ul>
+            <li th:each="talk : ${unusedTalks}" th:text="${talk.name + ' - ' + talk.duration}"/>
+        </ul>
+    </th:block>
+
+
+</div>
+
+</body>
+</html>

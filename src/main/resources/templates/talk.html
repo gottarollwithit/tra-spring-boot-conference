@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add a Talk</title>
+
+    <link rel="stylesheet" href="webjars/bootstrap/4.1.2/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery-validation/1.17.0/jquery.validate.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <form name="talk" class="form-narrow form-horizontal" method="post" th:action="@{/talk}" th:object="${talkForm}">
+        <th:block th:if="${#fields.hasGlobalErrors()}">
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p th:each="error : ${#fields.globalErrors()}" th:text="${error}"></p>
+            </div>
+        </th:block>
+        <fieldset>
+            <legend>Please Enter Details of the Talk</legend>
+            <div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
+                <label for="name" class="col-lg-4 control-label">Duration</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="name" placeholder="Name" th:field="*{name}"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+                </div>
+            </div>
+
+            <div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
+                <label for="duration" class="col-lg-4 control-label">Duration (minutes)</label>
+                <div class="col-lg-8">
+                    <input type="text" oninput="value=value.replace(/[^0-9]/g,'');" class="form-control" id="duration" placeholder="Duration" th:field="*{duration}"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">Incorrect duration</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-4 col-lg-8">
+                    <button type="submit" class="btn btn-default">Add Talk</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script>
+
+    $(function () {
+        // Initialize simple form validation on the talk form.
+        $("form[name='talk']").validate({
+            // Specify validation rules
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 255
+                },
+                duration: {
+                    required: true,
+                    min: 5
+                }
+            },
+            messages: {
+                name: "Please enter a name between 3-255 characters",
+                duration: "Duration must be minimum 5 minutes"
+            },
+            function(form) {
+                form.submit();
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
+
