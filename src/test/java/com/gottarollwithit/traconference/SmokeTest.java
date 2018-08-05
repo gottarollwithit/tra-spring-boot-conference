@@ -1,21 +1,28 @@
+package com.gottarollwithit.traconference;
+
 import com.gottarollwithit.traconference.controller.TalkController;
+import com.gottarollwithit.traconference.service.TalkService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class SmokeTest {
 
-    @Autowired
+    @InjectMocks
     private TalkController talkController;
 
+    @InjectMocks
+    private TalkService talkService;
+
     @Test
-    public void contexLoads() throws Exception {
+    public void contexLoads() {
         assertThat(talkController).isNotNull();
+        assertThat(talkService).isNotNull();
     }
 }
